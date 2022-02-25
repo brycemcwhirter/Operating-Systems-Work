@@ -1,9 +1,21 @@
+/************************************************
+ *
+ * Author: Bryce McWhirter
+ * Assignment: Program 2 (Monitors)
+ * Class: Intro To Operating Systems
+ *
+ ************************************************/
+
 package prog2;
 
 import java.util.Date;
 import java.util.Random;
 import java.util.ArrayList;
 
+/**
+ * This the Manager Program
+ * utilizing Monitors.
+ */
 public class ManagerMonitor {
 
     // Maximum time in between fan arrivals
@@ -44,9 +56,7 @@ public class ManagerMonitor {
         public void run() {
             while (true)
             {
-
                 takePicutreWithFans();
-
             }
 
         }
@@ -54,7 +64,14 @@ public class ManagerMonitor {
     }
 
 
-
+    /**
+     * A Celebrity first checks if there
+     * are enough fans to take pictures with.
+     * From there, the Celebrity takes pictures and removes
+     * fans from the queue. A Celebrity waits until there
+     * are fans in the queue to start taking pictures and then
+     * notifies other processes that it is done taking pictures.
+     */
     public synchronized void takePicutreWithFans(){
         while(numFansInLine < MIN_FANS){
             try {
@@ -110,6 +127,11 @@ public class ManagerMonitor {
         public String getName()
         { return name;}
 
+
+        /**
+         * The Run Method for a fan produces multiple fans and adds them
+         * to the queue
+         */
         @Override
         public void run() {
             // Set the thread name
@@ -135,11 +157,20 @@ public class ManagerMonitor {
     }
 
 
-
-
+    /**
+     * This method inserts a fan into the queue
+     * by first checking if the number of fans in
+     * line is greater than the maximum number of fans
+     * in the queue. From there it adds the fan in line.
+     * This method waits if there are more fans in line
+     * than the max number of fans allowed.
+     *
+     *
+     * @param fan The Fan to be added to the line
+     */
     public synchronized void insertAFan(Fan fan)  {
 
-        while(numFansInLine > MAX_ALLOWED_IN_QUEUE){
+        while(numFansInLine + 1 > MAX_ALLOWED_IN_QUEUE){
             try {
                 wait();
             } catch (InterruptedException e) {
@@ -159,16 +190,14 @@ public class ManagerMonitor {
 
 
 
-
-
-
     public static void main(String[] args) {
         new ManagerMonitor().go();
     }
 
 
-
-
+    /**
+     * Generates fans to be added to a queue.
+     */
     private void go() {
         // Create the celebrity thread
         Celebrity c = new Celebrity();
@@ -189,7 +218,11 @@ public class ManagerMonitor {
     }
 
 
-
+    /**
+     * Checks to make sure that a Celebrity has too little
+     * or too many fans in the queue. If so, then the program
+     * exits.
+     */
     public void checkCelebrityOK()
     {
         if (numFansInLine > MAX_ALLOWED_IN_QUEUE)

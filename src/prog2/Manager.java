@@ -129,7 +129,7 @@ public class Manager {
 	          // Get in line
 	          System.out.println(Thread.currentThread() + ": gets in line");
 	          line.add(0, this);
-	           numFansInLine++;
+			  numFansInLine++;
 
 		}
 
