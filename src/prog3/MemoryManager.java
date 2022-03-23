@@ -40,13 +40,14 @@ public class MemoryManager {
     }
 
     private static void free(int memorySize) {
+        //
     }
 
     private static void display(int memorySize) {
+        //
     }
 
     private static void add(int memorySize) {
-
         //
     }
 }
